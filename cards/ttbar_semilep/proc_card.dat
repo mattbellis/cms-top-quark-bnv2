@@ -1,0 +1,32 @@
+#***********************************************************************
+# Background 1: SM semileptonic ttbar
+#
+#   p p > t t~ , one top -> b l nu, the other -> b j j
+#
+# Final state: 4 jets (2 b) + 1 lepton + MET.
+# This sits one jet BELOW the 5-jet signal final state.
+#
+# NOTE: `output <name>` is resolved relative to the CWD of mg5_aMC, not to
+# the location of this file. scripts/run_mpd.sh cds into $BNV2_WORK first.
+# If you run this by hand, do the same:
+#     cd $BNV2_WORK && $MG5_ROOT/bin/mg5_aMC $BNV2_REPO/cards/ttbar_semilep/proc_card.dat
+#***********************************************************************
+
+import model sm
+
+# Be explicit rather than relying on MG5 defaults, which have shifted between
+# versions (notably whether b is in `j`). b is deliberately NOT in j/p so that
+# b-jets from top decay stay distinguishable at generation level.
+define p = g u c d s u~ c~ d~ s~
+define j = g u c d s u~ c~ d~ s~
+define l+ = e+ mu+
+define l- = e- mu-
+define vl = ve vm
+define vl~ = ve~ vm~
+
+# Leptonic t, hadronic t~
+generate     p p > t t~, (t > b w+, w+ > l+ vl), (t~ > b~ w-, w- > j j)
+# Hadronic t, leptonic t~
+add process  p p > t t~, (t > b w+, w+ > j j), (t~ > b~ w-, w- > l- vl~)
+
+output ttbar_semilep -nojpeg

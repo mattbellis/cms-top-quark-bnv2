@@ -1,0 +1,66 @@
+#***********************************************************************
+# MadGraph5_aMC@NLO - MINIMAL run_card for ttbar_semilep_2j
+#
+# Identical to cards/ttbar_semilep/run_card.dat except for the jet cuts,
+# which are now NECESSARY: the two matrix-element jets are massless QCD
+# radiation and the cross section is divergent without a pT and a separation
+# cut.
+#***********************************************************************
+
+#*********************************************************************
+# Run / beam setup
+#*********************************************************************
+  1        = nevents   ! overridden on the command line by run_mpd.sh
+  0        = iseed
+  2212     = lpp1
+  2212     = lpp2
+  6500.0   = ebeam1
+  6500.0   = ebeam2
+
+#*********************************************************************
+# Scales
+#*********************************************************************
+  False    = fixed_ren_scale
+  False    = fixed_fac_scale
+  3        = dynamical_scale_choice
+
+#*********************************************************************
+# Cuts
+#
+# cut_decays = False so that ptj/drjj below bite ONLY on the two ME jets.
+# With cut_decays = True these cuts would also be imposed on the quarks from
+# W -> j j, sculpting the hadronic W and ruining the shape comparison
+# against the other samples.
+#
+# ptj = 20 GeV roughly matches a typical CMS analysis jet threshold, so the
+# generator threshold sits at or just below where you will cut offline. If
+# you later raise the offline jet pT threshold, raise ptj too or you are
+# paying for events you throw away.
+#*********************************************************************
+  False    = cut_decays
+  20.0     = ptj       ! ME jets only
+  0.0      = ptl
+  0.0      = ptb
+  5.0      = etaj      ! ME jets only
+  -1.0     = etal
+  0.4      = drjj      ! ME jets only; matches the anti-kT R = 0.4 in the Delphes CMS card
+  0.0      = drjl
+  0.0      = mmjj
+
+#*********************************************************************
+# Bookkeeping
+#*********************************************************************
+  False    = use_syst
+  True     = store_rwgt_info
+  15.0     = bwcutoff
+
+#*********************************************************************
+# NOT enabling MLM merging here -- this is deliberately an exclusive 2-jet
+# sample. For a merged inclusive tt+jets sample you would instead generate
+#     p p > t t~ ; p p > t t~ j ; p p > t t~ j j
+# and set:
+#     1     = ickkw
+#     20.0  = xqcut
+# plus JetMatching:* in the Pythia8 card. Do not half-do this: ickkw=1
+# without the Pythia side configured produces a silently wrong spectrum.
+#*********************************************************************

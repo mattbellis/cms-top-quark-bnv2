@@ -1,0 +1,31 @@
+#***********************************************************************
+# Background 2: SM semileptonic ttbar + 2 matrix-element jets
+#
+#   p p > t t~ j j , one top -> b l nu, the other -> b j j
+#
+# Final state: 6 jets (2 b) + 1 lepton + MET.
+# This sits one jet ABOVE the 5-jet signal final state.
+#
+# QED=0 forces the two extra jets to be QCD radiation (no EW tt+2j
+# contributions such as tt+W/Z-strahlung into jets). The decay chains after
+# the comma are unaffected by that coupling restriction.
+#
+# This is an EXCLUSIVE 2-jet sample: fixed order, no MLM merging. Shapes at
+# fixed multiplicity are meaningful; the cross section is not. See README.
+#***********************************************************************
+
+import model sm
+
+define p = g u c d s u~ c~ d~ s~
+define j = g u c d s u~ c~ d~ s~
+define l+ = e+ mu+
+define l- = e- mu-
+define vl = ve vm
+define vl~ = ve~ vm~
+
+# Leptonic t, hadronic t~
+generate     p p > t t~ j j QED=0, (t > b w+, w+ > l+ vl), (t~ > b~ w-, w- > j j)
+# Hadronic t, leptonic t~
+add process  p p > t t~ j j QED=0, (t > b w+, w+ > j j), (t~ > b~ w-, w- > l- vl~)
+
+output ttbar_semilep_2j -nojpeg

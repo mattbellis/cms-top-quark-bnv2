@@ -1,0 +1,55 @@
+#***********************************************************************
+# MadGraph5_aMC@NLO - MINIMAL run_card for ttbar_semilep
+#
+# MG5 >= 2.7 accepts a partial run card: anything not listed here is filled
+# from run_card_default.dat. If you are on an older MG5, run
+# scripts/run_mpd.sh once to let MG5 write a full default card, then merge
+# these settings into it.
+#
+# Do not hand-edit the copy that ends up in PROCDIR/Cards/ -- MG5 rewrites it.
+# Edit this file, commit it, re-run.
+#***********************************************************************
+
+#*********************************************************************
+# Run / beam setup
+#*********************************************************************
+  1        = nevents   ! overridden on the command line by run_mpd.sh
+  0        = iseed     ! 0 = seed from the system clock; set a fixed int to reproduce
+  2212     = lpp1      ! proton
+  2212     = lpp2      ! proton
+  6500.0   = ebeam1    ! 13 TeV pp (Run 2). Use 6800.0 for Run 3.
+  6500.0   = ebeam2
+
+#*********************************************************************
+# Scales. Fixed at m_top keeps the two background samples on a common
+# footing; dynamical_scale_choice = -1 would use MG5's default.
+#*********************************************************************
+  False    = fixed_ren_scale
+  False    = fixed_fac_scale
+  3        = dynamical_scale_choice  ! 3 = sum of transverse masses / 2
+
+#*********************************************************************
+# Cuts
+#
+# cut_decays = False is the important line: generation-level cuts are then
+# applied ONLY to matrix-element final states, not to decay products. There
+# are no ME jets in this process, so nothing is cut here at all -- but the
+# setting is kept identical to ttbar_semilep_2j so the two samples differ in
+# exactly one thing (the extra jets).
+#*********************************************************************
+  False    = cut_decays
+  0.0      = ptj
+  0.0      = ptl
+  0.0      = ptb
+  -1.0     = etaj      ! -1 = no cut
+  -1.0     = etal
+  0.0      = drjj
+  0.0      = drjl
+  0.0      = mmjj
+
+#*********************************************************************
+# Bookkeeping
+#*********************************************************************
+  False    = use_syst        ! skip scale/PDF reweighting; turn on when you need uncertainties
+  True     = store_rwgt_info
+  15.0     = bwcutoff        ! Breit-Wigner width cut for the decay chains

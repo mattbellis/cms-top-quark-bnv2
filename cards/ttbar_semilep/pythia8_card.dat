@@ -1,0 +1,23 @@
+!***********************************************************************
+! Pythia8 card for ttbar_semilep
+!
+! MG5 writes the beam/LHE/merging settings itself. Only put physics choices
+! you actually want to control in here -- anything you leave out falls back
+! to pythia8_card_default.dat.
+!***********************************************************************
+
+! Shower + hadronization + MPI all on. Turning MPI off speeds things up a lot
+! and is tempting for a first test, but it changes jet multiplicity and soft
+! activity, i.e. exactly what this study is about. Leave it on.
+partonlevel:mpi = on
+hadronlevel:all = on
+
+! No merging for these exclusive samples.
+JetMatching:merge = off
+Merging:doKTMerging = off
+
+! Keep the HepMC on disk small; Delphes reads it streamed anyway.
+Beams:setProductionScalesFromLHEF = off
+
+! Useful while debugging; set to 1 for production.
+Next:numberShowEvent = 0

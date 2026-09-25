@@ -1,0 +1,4 @@
+# Vendored from: /home/bellis/MG5_aMC_v3_6_2/Delphes//cards/delphes_card_CMS.tcl
+# Delphes version:  Usage: DelphesHepMC3 config_file output_file [input_file(s)]
+unknown
+# Date: 2026-09-11T14:55:52-04:00
